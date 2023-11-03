@@ -18,8 +18,12 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _textController = TextEditingController();
   String _responseText = "API 응답이 여기에 표시됩니다.";
+  bool _isLoading = false; // 로딩 상태를 추적하는 플래그
 
   void callGenerateText() async {
+    setState(() {
+      _isLoading = true; // API 호출이 시작되면 로딩 상태를 true로 설정합니다.
+    });
     if (_textController.text.isNotEmpty) {
       try {
         final response = await generateText(_textController.text);
@@ -32,6 +36,9 @@ class _MyHomePageState extends State<MyHomePage> {
         });
       }
     }
+    setState(() {
+      _isLoading = false; // API 호출이 끝나면 로딩 상태를 false로 설정합니다.
+    });
   }
 
   @override
@@ -66,7 +73,9 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Container(
               color: Colors.grey[200],
               child: Center(
-                child: Text(_responseText),
+                child: _isLoading
+                    ? const CircularProgressIndicator() // 로딩 인디케이터를 보여줍니다.
+                    : Text(_responseText),
               ),
             ),
           ),
