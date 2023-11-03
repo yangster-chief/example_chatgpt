@@ -11,7 +11,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test('generateText', () async {
-    final response = await generateText('Hello, my name is');
+    final response = await generateText('Hello, my name is Bruce');
     print(response);
     expect(response, isNotEmpty);
   });
