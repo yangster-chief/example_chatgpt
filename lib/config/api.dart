@@ -28,7 +28,11 @@ Future<String> generateText(String prompt) async {
     }),
   );
 
-  Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
-
-  return data['choices'][0]['message']['content'];
+  if (response.statusCode == 200) {
+    final Map<String, dynamic> data =
+        jsonDecode(utf8.decode(response.bodyBytes));
+    return data['choices'][0]['message']['content'] ?? "응답을 받지 못했습니다.";
+  } else {
+    throw Exception('Failed to load text from the API');
+  }
 }
